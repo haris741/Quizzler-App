@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends Activity {
 
@@ -16,23 +19,26 @@ public class MainActivity extends Activity {
 
         Button trueButton;
         Button falseButton;
+        TextView mTextView;
+        int questionNumber=0;
+        int questionID;
 
 ;    // TODO: Uncomment to create question bank
-//    private TrueFalse[] mQuestionBank = new TrueFalse[] {
-//            new TrueFalse(R.string.question_1, true),
-//            new TrueFalse(R.string.question_2, true),
-//            new TrueFalse(R.string.question_3, true),
-//            new TrueFalse(R.string.question_4, true),
-//            new TrueFalse(R.string.question_5, true),
-//            new TrueFalse(R.string.question_6, false),
-//            new TrueFalse(R.string.question_7, true),
-//            new TrueFalse(R.string.question_8, false),
-//            new TrueFalse(R.string.question_9, true),
-//            new TrueFalse(R.string.question_10, true),
-//            new TrueFalse(R.string.question_11, false),
-//            new TrueFalse(R.string.question_12, false),
-//            new TrueFalse(R.string.question_13,true)
-//    };
+    private TrueFalse[] mQuestionBank = new TrueFalse[] {
+            new TrueFalse(R.string.question_1, true),
+            new TrueFalse(R.string.question_2, true),
+            new TrueFalse(R.string.question_3, true),
+            new TrueFalse(R.string.question_4, true),
+            new TrueFalse(R.string.question_5, true),
+            new TrueFalse(R.string.question_6, false),
+            new TrueFalse(R.string.question_7, true),
+            new TrueFalse(R.string.question_8, false),
+            new TrueFalse(R.string.question_9, true),
+            new TrueFalse(R.string.question_10, true),
+            new TrueFalse(R.string.question_11, false),
+            new TrueFalse(R.string.question_12, false),
+            new TrueFalse(R.string.question_13,true)
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"false button pressed", Toast.LENGTH_SHORT).show();
 
-                Log.d("Quizzler", "False pressed");
+                updateQuestion();
             }
         });
         trueButton.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +61,15 @@ public class MainActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "True Button Pressed", Toast.LENGTH_SHORT).show();
             }
         });
+        mTextView=(TextView) findViewById(R.id.question_text_view);
 
     }
+    private void updateQuestion()
+    {
+
+        questionNumber=(questionNumber+1)%mQuestionBank.length;
+        mTextView.setText(mQuestionBank[questionNumber].getQuestionId());
+
+    }
+
 }
