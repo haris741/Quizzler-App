@@ -1,6 +1,8 @@
 package com.londonappbrewery.quizzler;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -74,6 +76,22 @@ public class MainActivity extends Activity {
     {
 
         questionNumber=(questionNumber+1)%mQuestionBank.length;
+        if(questionNumber==0)
+        {
+
+           AlertDialog.Builder alert = new AlertDialog.Builder(this);
+           alert.setTitle("Game Over");
+           alert.setCancelable(false);
+           alert.setMessage("Your Score is "+ mScore);
+           alert.setPositiveButton("Close app", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialogInterface, int i) {
+                   finish();
+               }
+           });
+           alert.show();
+
+        }
         mTextView.setText(mQuestionBank[questionNumber].getQuestionId());
         mProgressBar.incrementProgressBy(progressBarIncrement);
         mScoreTextView.setText("Score: "+ mScore+"/"+ mQuestionBank.length);
