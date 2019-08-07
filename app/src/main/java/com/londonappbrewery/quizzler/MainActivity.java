@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +21,10 @@ public class MainActivity extends Activity {
         Button trueButton;
         Button falseButton;
         TextView mTextView;
+        TextView mScoreTextView;
+        ProgressBar mProgressBar;
         int questionNumber=0;
-        int questionID;
+        int mScore=0;
 
 ;    // TODO: Uncomment to create question bank
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
@@ -39,13 +42,15 @@ public class MainActivity extends Activity {
             new TrueFalse(R.string.question_12, false),
             new TrueFalse(R.string.question_13,true)
     };
-
+    final int progressBarIncrement=(int) Math.ceil(100/ mQuestionBank.length); //the magnitude with which the progress bar will be increased;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         trueButton = (Button) findViewById(R.id.true_button);
         falseButton=(Button) findViewById(R.id.false_button);
+        mScoreTextView= (TextView) findViewById(R.id.score);
+        mProgressBar= (ProgressBar) findViewById(R.id.progress_bar);
 
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +75,8 @@ public class MainActivity extends Activity {
 
         questionNumber=(questionNumber+1)%mQuestionBank.length;
         mTextView.setText(mQuestionBank[questionNumber].getQuestionId());
+        mProgressBar.incrementProgressBy(progressBarIncrement);
+        mScoreTextView.setText("Score: "+ mScore+"/"+ mQuestionBank.length);
 
     }
     private void checkAnswer(boolean answer)
@@ -77,6 +84,7 @@ public class MainActivity extends Activity {
         if(answer== mQuestionBank[questionNumber].getAnswer())
         {
             Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
+            mScore++;
         }
         else
         {
